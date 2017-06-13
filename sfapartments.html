@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>CSVLayer - 4.2</title>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.2/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.2/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/CSVLayer",
+      "esri/views/MapView",
+      "esri/renderers/ClassBreaksRenderer",
+      "dojo/domReady!"
+    ], function(
+      Map,
+      CSVLayer,
+      MapView,
+      ClassBreaksRenderer
+      ) {
+
+      var url = "http://localhost:8080/sfapartments.csv";
+
+      // var template = {
+      //   title: "San Francisco Apartments",
+      //   content: "Locations of San Francisco Apartments"
+      // };
+
+      var csvLayer = new CSVLayer({
+        url: url,
+        copyright: "Craigslist",
+        //popupTemplate: template,
+      });
+ 
+      csvLayer.renderer = new ClassBreaksRenderer({
+          field: "price_number"
+      });
+
+      var map = new Map({
+        basemap: "gray",
+        layers: [csvLayer]
+      });
+
+
+      var view = new MapView({
+        container: "viewDiv",
+        center: [-122.4194, 37.7749],
+        zoom: 10,
+        map: map
+      });
+  
+
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>
