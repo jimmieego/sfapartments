@@ -1,75 +1,57 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-  <title>CSVLayer - 4.2</title>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+    <title>San Francisco Apartments</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+    <style>
+      html, body, #map {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #FFF;
+        overflow: hidden;
+        font-family: "Trebuchet MS";
+      }
+    </style>
+    <script src="https://js.arcgis.com/3.20/"></script>
+    <script>
+      var map, csv;
 
-  <style>
-    html,
-    body,
-    #viewDiv {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-    }
-  </style>
-
-  <link rel="stylesheet" href="https://js.arcgis.com/4.2/esri/css/main.css">
-  <script src="https://js.arcgis.com/4.2/"></script>
-
-  <script>
-    require([
-      "esri/Map",
-      "esri/layers/CSVLayer",
-      "esri/views/MapView",
-      "esri/renderers/ClassBreaksRenderer",
-      "dojo/domReady!"
-    ], function(
-      Map,
-      CSVLayer,
-      MapView,
-      ClassBreaksRenderer
+      require([
+        "esri/map", 
+        "esri/layers/CSVLayer",
+        "esri/Color",
+        "esri/symbols/SimpleMarkerSymbol",
+        "esri/renderers/SimpleRenderer",
+        "esri/InfoTemplate",
+        "dojo/domReady!"
+      ], function(
+        Map, CSVLayer, Color, SimpleMarkerSymbol, SimpleRenderer, InfoTemplate
       ) {
-
-      var url = "http://localhost:8080/sfapartments.csv";
-
-      // var template = {
-      //   title: "San Francisco Apartments",
-      //   content: "Locations of San Francisco Apartments"
-      // };
-
-      var csvLayer = new CSVLayer({
-        url: url,
-        copyright: "Craigslist",
-        //popupTemplate: template,
+        map = new Map("map", {
+          basemap: "gray",
+          center: [-122.4194, 37.7749],
+          zoom: 12 
+        });
+        csv = new CSVLayer("sfapartments.csv", {
+          copyright: "Craigslist"
+        });
+        var orangeRed = new Color([238, 69, 0, 0.5]); // hex is #ff4500
+        var marker = new SimpleMarkerSymbol("solid", 15, null, orangeRed);
+        var renderer = new SimpleRenderer(marker);
+        csv.setRenderer(renderer);
+        var template = new InfoTemplate("${price_number}");
+        csv.setInfoTemplate(template);
+        map.addLayer(csv);
       });
- 
-      csvLayer.renderer = new ClassBreaksRenderer({
-          field: "price_number"
-      });
+    </script>
+  </head>
 
-      var map = new Map({
-        basemap: "gray",
-        layers: [csvLayer]
-      });
-
-
-      var view = new MapView({
-        container: "viewDiv",
-        center: [-122.4194, 37.7749],
-        zoom: 10,
-        map: map
-      });
-  
-
-    });
-  </script>
-</head>
-
-<body>
-  <div id="viewDiv"></div>
-</body>
-
+  <body>
+    <div id="map"></div>
+  </body>
 </html>
