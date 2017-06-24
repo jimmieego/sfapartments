@@ -43,10 +43,12 @@ with open('sfapartments.csv','w') as csvfile:
         price = result['price']
         if loc is None:
             continue
-        else: 
-            writer.writerow({'id': result['id'], 'name': result['name'], 
-                'url': result['url'], 'datetime':result['datetime'], 'price':result['price'], 
-                'where': result['where'], 'has_image': result['has_image'], 
-                'has_map': result['has_map'], 'geotag': result['geotag'], 
-                'lat': loc[0], 'long': loc[1], 'price_number': int(price[1:])})
-
+        else:
+            try: 
+                writer.writerow({'id': result['id'], 'name': result['name'], 
+                    'url': result['url'], 'datetime':result['datetime'], 'price':result['price'], 
+                    'where': result['where'], 'has_image': result['has_image'], 
+                    'has_map': result['has_map'], 'geotag': result['geotag'], 
+                    'lat': loc[0], 'long': loc[1], 'price_number': int(price[1:])})
+            except UnicodeEncodeError:
+                print("Unicode Error")
