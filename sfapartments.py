@@ -29,7 +29,7 @@ def getLong(loc):
 
 
 cl_h = CraigslistHousing(site='sfbay', area='sby', category='apa', filters={
-                         'max_price': 3000, 'has_image': True, 'posted_today': True})
+                         'max_price': 3000, 'has_image': True, 'posted_today': True, 'bedrooms': 1})
 
 
 # for result in cl_h.get_results(sort_by='newest', geotagged=True):
