@@ -1,5 +1,6 @@
 from craigslist import CraigslistHousing
 import csv
+import sys
 
 
 def getLat(loc):
@@ -31,11 +32,9 @@ def getLong(loc):
 cl_h = CraigslistHousing(site='sfbay', area='sby', category='apa', filters={
                          'max_price': 3000, 'has_image': True, 'posted_today': True, 'bedrooms': 1})
 
-
 # for result in cl_h.get_results(sort_by='newest', geotagged=True):
 #     print(type(result))
 
-rowCount = 1
 with open('sfapartments.csv', 'w') as csvfile:
     fieldnames = ['id', 'name', 'url', 'datetime', 'price', 'where', 'has_image', 'has_map', 'geotag',
                   'lat', 'long', 'price_number']
@@ -53,7 +52,8 @@ with open('sfapartments.csv', 'w') as csvfile:
                                  'where': result['where'], 'has_image': result['has_image'],
                                  'has_map': result['has_map'], 'geotag': result['geotag'],
                                  'lat': loc[0], 'long': loc[1], 'price_number': int(price[1:])})
-                rowCount = rowCount + 1
-                print(rowCount)
+                sys.stdout.write("-")
+                sys.stdout.flush()
             except UnicodeEncodeError:
                 print("Unicode Error")
+print("\n")
