@@ -58,4 +58,4 @@ with open('sfapartments.csv', 'w') as csvfile:
                 recordCount += 1
             except UnicodeEncodeError:
                 print("Unicode Error")
-print("\nTotal records: " + recordCount + "\n")
+print("\nTotal records: " + str(recordCount) + "\n")
