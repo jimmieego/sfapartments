@@ -35,6 +35,7 @@ cl_h = CraigslistHousing(site='sfbay', area='sby', category='apa', filters={
 # for result in cl_h.get_results(sort_by='newest', geotagged=True):
 #     print(type(result))
 
+recordCount = 0
 with open('sfapartments.csv', 'w') as csvfile:
     fieldnames = ['id', 'name', 'url', 'datetime', 'price', 'where', 'has_image', 'has_map', 'geotag',
                   'lat', 'long', 'price_number']
@@ -54,6 +55,7 @@ with open('sfapartments.csv', 'w') as csvfile:
                                  'lat': loc[0], 'long': loc[1], 'price_number': int(price[1:])})
                 sys.stdout.write("-")
                 sys.stdout.flush()
+                recordCount += 1
             except UnicodeEncodeError:
                 print("Unicode Error")
-print("\n")
+print("\nTotal records: " + recordCount + "\n")
